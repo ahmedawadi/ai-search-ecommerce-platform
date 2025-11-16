@@ -1,7 +1,5 @@
 "use client";
-
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { SearchBar } from "@/components/search-bar";
@@ -11,11 +9,9 @@ import type { Product } from "@/lib/types";
 import { Loader2, AlertCircle } from "lucide-react";
 
 function SearchPageContent() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search");
   const [imageResults, setImageResults] = useState<Product[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const { products, loading, error } = useProducts(search || undefined);
+  const { products, loading, error } = useProducts(undefined);
 
   const displayProducts = imageResults.length > 0 ? imageResults : products;
   const isLoading = loading || isSearching;
@@ -100,7 +96,7 @@ function SearchPageContent() {
                 No Products Found
               </h3>
               <p className="text-muted-foreground max-w-md mx-auto leading-relaxed text-lg">
-                {search
+                {true
                   ? `Try different keywords or upload an image to search.`
                   : "Enter a search term or upload an image to find products."}
               </p>
@@ -118,12 +114,12 @@ function SearchPageContent() {
                       {displayProducts.length}
                     </span>{" "}
                     products
-                    {search && (
+                    {true && (
                       <span className="text-muted-foreground">
                         {" "}
                         matching "
                         <span className="font-semibold text-foreground">
-                          {search}
+                          {"search"}
                         </span>
                         "
                       </span>

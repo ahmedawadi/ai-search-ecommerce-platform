@@ -1,15 +1,11 @@
 "use client";
-
-import { useSearchParams } from "next/navigation";
 import { useProducts } from "@/hooks/use-products";
 import { ProductCard } from "@/components/product-card";
 import { Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 export function ProductsSection() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search");
-  const { products, loading, error } = useProducts(search || undefined);
+  const { products, loading, error } = useProducts(undefined);
 
   return (
     <section id="products" className="py-5 bg-background">
@@ -21,9 +17,7 @@ export function ProductsSection() {
             Discover our Products
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {search
-              ? `Results for "${search}"`
-              : "Handpicked selection of premium products curated just for you"}
+            {"Handpicked selection of premium products curated just for you"}
           </p>
         </div>
 
@@ -61,9 +55,7 @@ export function ProductsSection() {
               No Products Found
             </h3>
             <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
-              {search
-                ? `No products match your search. Try different keywords.`
-                : "No products available at the moment."}
+              {"No products available at the moment."}
             </p>
           </div>
         )}
