@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import type { Category } from "@/lib/types"
-import { apiWithFallback } from "@/services/api-with-fallback"
+import { useEffect, useState } from "react";
+import type { Category } from "@/lib/types";
+import { apiWithFallback } from "@/services/client/api-with-fallback";
 
 interface UseCategoriesReturn {
-  categories: Category[]
-  loading: boolean
-  error: string | null
+  categories: Category[];
+  loading: boolean;
+  error: string | null;
 }
 
 export const useCategories = (): UseCategoriesReturn => {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      setLoading(true)
-      setError(null)
-      const { data, error: fetchError } = await apiWithFallback.getCategories()
+      setLoading(true);
+      setError(null);
+      const { data, error: fetchError } = await apiWithFallback.getCategories();
 
       if (fetchError) {
-        setError(fetchError)
-        setCategories([])
+        setError(fetchError);
+        setCategories([]);
       } else {
-        setCategories(data || [])
+        setCategories(data || []);
       }
-      setLoading(false)
-    }
+      setLoading(false);
+    };
 
-    fetchCategories()
-  }, [])
+    fetchCategories();
+  }, []);
 
-  return { categories, loading, error }
-}
+  return { categories, loading, error };
+};

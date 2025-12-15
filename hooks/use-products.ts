@@ -1,37 +1,39 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import type { Product } from "@/lib/types"
-import { apiWithFallback } from "@/services/api-with-fallback"
+import { useEffect, useState } from "react";
+import type { Product } from "@/lib/types";
+import { apiWithFallback } from "@/services/client/api-with-fallback";
 
 interface UseProductsReturn {
-  products: Product[]
-  loading: boolean
-  error: string | null
+  products: Product[];
+  loading: boolean;
+  error: string | null;
 }
 
 export const useProducts = (search?: string): UseProductsReturn => {
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true)
-      setError(null)
-      const { data, error: fetchError } = await apiWithFallback.getProducts(search)
+      setLoading(true);
+      setError(null);
+      const { data, error: fetchError } = await apiWithFallback.getProducts(
+        search
+      );
 
       if (fetchError) {
-        setError(fetchError)
-        setProducts([])
+        setError(fetchError);
+        setProducts([]);
       } else {
-        setProducts(data || [])
+        setProducts(data || []);
       }
-      setLoading(false)
-    }
+      setLoading(false);
+    };
 
-    fetchProducts()
-  }, [search])
+    fetchProducts();
+  }, [search]);
 
-  return { products, loading, error }
-}
+  return { products, loading, error };
+};
