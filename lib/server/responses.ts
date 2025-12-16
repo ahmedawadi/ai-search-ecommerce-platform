@@ -19,10 +19,46 @@ export function getResponse(params: Params) {
 }
 
 export const SuccessfulMessage = {
-  creation: "Successful Creation!",
-  extraction: "Successful Extraction!",
+  products: {
+    creation: {
+      message: "Successful Products Creation!",
+      status: 200,
+    },
+    extraction: {
+      message: "Successful Products Creation!",
+      status: 200,
+    },
+    deletion: {
+      message: "Successful Product Deletion!",
+      status: 200,
+    },
+  },
+  categories: {
+    creation: {
+      message: "Successful Categories Creation!",
+      status: 200,
+    },
+    extraction: {
+      message: "Successful Categories Creation!",
+      status: 200,
+    },
+  },
 };
 
 export const ErrorMessage = {
-  serverError: "Server Error!",
+  serverError: {
+    status: 500,
+    message: "Server Error!",
+    code: "",
+  },
+  creationFailedOnAIService: {
+    status: 500,
+    message: "AI Service Failed to create Product",
+    code: "",
+  },
+  deletionFailedOnAIService: {
+    status: 500,
+    message: "AI Service Failed to delete Product",
+    code: "",
+  },
 };

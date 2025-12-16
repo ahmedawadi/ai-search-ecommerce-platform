@@ -1,48 +1,81 @@
-import axios, { type AxiosInstance } from "axios"
-
-const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS || "http://localhost:5000/api"
-
-const apiClient: AxiosInstance = axios.create({
-  baseURL: BACKEND_ADDRESS,
-  timeout: 10000,
-})
+import { Category, Product } from "@/lib/types";
+import axios from "axios";
 
 export const api = {
   // Products
   getProducts: async (search?: string) => {
     try {
-      const params = search ? { search } : {}
-      const response = await apiClient.get("/products", { params })
-      return { data: response.data, error: null }
+      const params = search ? { search } : {};
+      const response = await axios.get("/api/products", { params });
+      return {
+        data: (response.data.data as Product[]).map((product) => ({
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          image: product.image.includes("public")
+            ? product.image.split("public")[1]
+            : product.image,
+          secondaryImage: product.secondaryImage.includes("public")
+            ? product.secondaryImage.split("public")[1]
+            : product.secondaryImage,
+        })),
+        error: null,
+      };
     } catch (error) {
-      console.error("Error fetching products:", error)
-      return { data: null, error: "Failed to fetch products" }
+      console.error("Error fetching products:", error);
+      return { data: null, error: "Failed to fetch products" };
     }
   },
 
   // Categories
   getCategories: async () => {
     try {
-      const response = await apiClient.get("/categories")
-      return { data: response.data, error: null }
+      const response = await axios.get("/api/categories");
+      console.log(response.data);
+      return {
+        data: (response.data.data as Category[]).map((category) => ({
+          id: category.id,
+          name: category.name,
+          description: category.description,
+          image: category.image.includes("public")
+            ? category.image.split("public")[1]
+            : category.image,
+        })),
+        error: null,
+      };
     } catch (error) {
-      console.error("Error fetching categories:", error)
-      return { data: null, error: "Failed to fetch categories" }
+      console.error("Error fetching categories:", error);
+      return { data: null, error: "Failed to fetch categories" };
     }
   },
 
   // Image Search
   searchByImage: async (formData: FormData) => {
     try {
-      const response = await apiClient.post("/products/search-by-image", formData, {
+      const response = await axios.post("/api/products/search", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      })
-      return { data: response.data, error: null }
+      });
+      return {
+        data: (response.data.data as Product[]).map((product) => ({
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          image: product.image.includes("public")
+            ? product.image.split("public")[1]
+            : product.image,
+          secondaryImage: product.secondaryImage.includes("public")
+            ? product.secondaryImage.split("public")[1]
+            : product.secondaryImage,
+        })),
+        error: null,
+      };
     } catch (error) {
-      console.error("Error searching by image:", error)
-      return { data: null, error: "Failed to search by image" }
+      console.error("Error searching by image:", error);
+      return { data: null, error: "Failed to search by image" };
     }
   },
-}
+};

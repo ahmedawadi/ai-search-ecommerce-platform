@@ -15,15 +15,15 @@ export async function getCategoriesRepo() {
 type CategoryCreateInput = {
   name: string;
   description: string;
+  image: string;
 };
 
 export async function createCategoryRepo(data: CategoryCreateInput) {
-  console.log("data");
   return await PrismaService.getInstance().category.create({
     data: {
       name: data.name,
       description: data.description,
-      image: "",
+      image: data.image,
     },
   });
 }

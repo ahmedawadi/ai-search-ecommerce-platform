@@ -9,14 +9,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
     unoptimized: true,
   },
   env: {
-    BACKEND_ADDRESS: process.env.BACKEND_ADDRESS || 'http://localhost:5000/api',
+    BACKEND_ADDRESS: process.env.BACKEND_ADDRESS || "http://localhost:3000/api",
   },
 };
 
